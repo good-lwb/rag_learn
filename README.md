@@ -4,9 +4,10 @@
 在本次项目中将rag分为三步：  
 1. indexing索引阶段  
 2. retrive检索阶段  
-3. generation生成阶段  
-并对这三个阶段分别展开优化
+3. generation生成阶段
 
+
+本项目主要对这三个阶段分别展开优化
 
 ~~下面是不同版本的项目说明~~  
 ## 项目说明  
@@ -20,3 +21,12 @@
 提供了api版本（main_api.py）和本地加载模型的版本（main.py）  
 *索引*：使用langchain.text_spliter对文档进行分块chunk=512、overlap=128，embeding='bge-samll-zh-v1.5'，向量数据库=faiss  
 *检索*：最简单的双路召回（关键词检索(BM25)、向量匹配），召回10+10，rerank取前5  
+
+
+## 如何使用
+首先你需要下载bge-small-zh-v1.5;bge-reranker-base;Qwen3-4B三个模型,并保存在项目路径下.
+langchain版本>0.3即可,其余不做版本要求.
+# !pip install langchain
+# !pip install langchain-openai
+# !pip install langchain-community
+# !pip install faiss-cpu
