@@ -17,7 +17,7 @@
 *索引*：使用最简单的按500token分块，未作overlap，bge-samll-zh-v1.5作为embeding模型，使用faiss构架本地向量数据库  
 *检索*：使用最基础的huggingface加载器加载模型推理，未做多路召回，未做rerank  
 
-**v2.0**
+**v2.0**  
 2.0版本旨在使用基本的优化技术（非企业级）  
 提供了api版本（main_api.py）和本地加载模型的版本（main.py）  
 *索引*：使用langchain.text_spliter对文档进行分块chunk=512、overlap=128，embeding='bge-samll-zh-v1.5'，向量数据库=faiss  
