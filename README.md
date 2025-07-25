@@ -15,7 +15,7 @@
 **v1.0**  
 1.0版本旨在快速启动rag体验rag流程并且在代码中使用了大量打印注释方便理解rag流程  
 *索引*：使用最简单的按500token分块，未作overlap，bge-samll-zh-v1.5作为embeding模型，使用faiss构架本地向量数据库  
-*检索*：使用最基础的huggingface加载器加载模型推理，未做多路召回，未做rerank  
+*检索*：使用最基础的huggingface加载器加载模型推理，未做多路召回，未做rerank，无增强检索技术
 
 **v2.0**  
 2.0版本旨在使用基本的优化技术（非企业级）  
@@ -23,6 +23,15 @@
 *索引*：使用langchain.text_spliter对文档进行分块chunk=512、overlap=128，embeding='bge-samll-zh-v1.5'，向量数据库=faiss  
 *检索*：最简单的双路召回（关键词检索(BM25)、向量匹配），召回10+10，rerank取前5  
 
+**v3.0**  
+3.0版本使用Qwen-Rag框架进行开发（可以作为企业的快速启动测试，能在保证质量的前提下体验Rag带来的效果提升）  
+这里还是提供两个版本的测试脚本，api版本（main_api.py）和本地加载模型的版本（main.py）  
+对于本地加载模型，在此版本中我们直接使用vllm来加载本地模型给Qwen-Rag使用（直接在终端使用bash start_vllm.sh即可加载模型）；  
+同时在这次测试中考虑到v2版本无记忆对话不支持多轮对话，也在Qwen-rag框架下进行了多轮对话的加入  
+
+
+**v4.0**  
+4.0版本旨在引入rag的一些测试评估效果（开发ing）  
 
 ## 如何使用
 首先你需要下载bge-small-zh-v1.5;bge-reranker-base;Qwen3-4B三个模型,并保存在项目路径下.  
