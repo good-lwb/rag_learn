@@ -39,4 +39,8 @@ langchain版本>0.3即可,其余不做版本要求.
 !pip install langchain  
 !pip install langchain-openai  
 !pip install langchain-community  
-!pip install faiss-cpu  
+!pip install faiss-cpu
+!pip install openai
+!pip install vllm
+!pip install -U "qwen-agent[rag,code_interpreter,gui,mcp] #v3用的
+
