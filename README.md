@@ -56,10 +56,10 @@ langchain版本>0.3即可,其余不做版本要求.
 !pip install langchain  
 !pip install langchain-openai  
 !pip install langchain-community  
-!pip install faiss-cpu
-!pip install openai
-!pip install vllm  # 可能会下载失败，可以单独create一个conda环境只下载vllm，专门用来bash start_vllm.sh使用
-!pip install chromadb
-!pip install ragas
-!pip install -U "qwen-agent[rag,code_interpreter,gui,mcp] #v3版本使用的
+!pip install faiss-cpu  
+!pip install openai  
+!pip install vllm  # 可能会下载失败，可以单独create一个conda环境只下载vllm，专门用来bash start_vllm.sh使用  
+!pip install chromadb  
+!pip install ragas  
+!pip install -U "qwen-agent[rag,code_interpreter,gui,mcp] #v3版本使用的  
 
