@@ -1,7 +1,8 @@
 # 黄帝内经rag问答系统
-![效果图1](https://github.com/good-lwb/rag_learn/blob/main/assets/0223ff4aaffd3d88cfc3141b5b168c67.png)
-![效果图2](https://github.com/good-lwb/rag_learn/blob/main/assets/ce1dac7e50b97c166bc6e2960535b0ab.png)
-本项目使用爬虫获取了皇帝内经全文以此为数据构建检索增强系统  
+![效果图1](https://github.com/good-lwb/rag_learn/blob/main/assets/0223ff4aaffd3d88cfc3141b5b168c67.png)  
+![效果图2](https://github.com/good-lwb/rag_learn/blob/main/assets/ce1dac7e50b97c166bc6e2960535b0ab.png)  
+本项目使用爬虫获取了皇帝内经全文以此为数据构建检索增强系统   
+本项目以一个系统的多层迭代不断更新优化技术，由浅入深逐渐理解rag原理及优化技术  
 在本次项目中将rag分为三步：  
 1. indexing索引阶段  
 2. retrive检索阶段  
