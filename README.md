@@ -36,19 +36,26 @@
 为了解决上述问题所以引入父文档检索器，先对文本块先分割成parent文本块（chunk较长），在分割较短的child块（chunk较短）；使用child进行相似度匹配，然后塞给模型对应的parent块，这样就能使得模型在保证相似度较高的前提下拿到更多的上下文信息。  
 langchain的父文档检索器主要提供了两种方式：检索完整文档 和 检索较大的文档块，我个人更推荐第二种，这里不做科普感兴趣的朋友可以自己去看一下父文档检索器的原理和详细的介绍，我这里主要是说明一下方便使用。  
 
-*索引*：使用langchain.retrievers提供的父文档检索器（ParentDocumentRetriever）构建Chroma本地向量数据库  
+*索引*：使用langchain.retrievers提供的父文档检索器（ParentDocumentRetriever）构建Chroma本地向量数据库。  
   在这部分在由于ParentDocumentRetriever不支持持久化保存父文档信息我们单独构建json将父文档chunk保存，再通过json在rag检索时进行加载，使得检索精度得到极大的提升。  
-  同时，支持两中加载embedding模型的方式（api/本地），通过参数控制方便使用  
-  除此之外提供test_chroma_db.py文件支持对本地chroma向量数据库进行测试  
+  同时，支持两中加载embedding模型的方式（api/本地），通过参数控制方便使用。  
+  除此之外提供test_chroma_db.py文件支持对本地chroma向量数据库进行测试。  
 
 *检索*：父文档检索器（检索top_k=3个相似度最高的子文档，并根据重构的json返回对应的父文档片段）  
-  4.0版本中将llm的本地化加载合并为同一main.py中并通过指定remote/local参数进行配置使用阿里云api加载或本地部署的vllm  
-*日志*：在4.0中引入了logging功能，并将检索信息通过json文件进行保存，方便后续对rag检索能进行评估  
+  4.0版本中将llm的本地化加载合并为同一main.py中并通过指定remote/local参数进行配置使用阿里云api加载或本地部署的vllm。  
+*日志*：在4.0中引入了logging功能，并将检索信息通过json文件进行保存，方便后续对rag检索能进行评估。  
 在这部分我并没做多路召回+重排序，因为本任务文档级别较小，如果有需要大量文档召回的朋友可以去结合v2.0的多路召回策略和rerank自行修改一下代码。  
 
-**v5.0**  (开发-ing)
-5.0版本我将使用ragas对rag系统进行评估以此验证rag的提升。
-
+**v5.0**  (开发-ing)  
+5.0版本使用ragas对rag系统进行评估以此验证在4.0版本rag的提升（其他版本测试代码这里不给出了，我已经将ragas评估函数封装，直接传参进去测试其他版本不难）。  
+衡量一个rag系统的主要参数有如下五类：  
+忠实度(faithfulness)：衡量了生成的答案(answer)与给定上下文(context)的事实一致性。它是根据answer和检索到的context计算得出的。并将计算结果缩放到 (0,1) 范围且越高越好。  
+答案相关性(Answer relevancy)：重点评估生成的答案(answer)与用户问题(question)之间相关程度。不完整或包含冗余信息的答案将获得较低分数。该指标是通过计算question和answer获得的，它的取值范围在 0 到 1 之间，其中分数越高表示相关性越好。  
+上下文精度(Context precision)：评估所有在上下文(contexts)中呈现的与基本事实(ground-truth)相关的条目是否排名较高。理想情况下，所有相关文档块(chunks)必须出现在顶层。该指标使用question和计算contexts，值范围在 0 到 1 之间，其中分数越高表示精度越高。  
+上下文召回率(Context recall)：衡量检索到的上下文(Context)与人类提供的真实答案(ground truth)的一致程度。它是根据ground truth和检索到的Context计算出来的，取值范围在 0 到 1 之间，值越高表示性能越好。  
+上下文相关性(Context relevancy)：该指标衡量检索到的上下文(Context)的相关性，根据用户问题(question)和上下文(Context)计算得到，并且取值范围在 (0, 1)之间，值越高表示相关性越好。理想情况下，检索到的Context应只包含解答question的信息。   
+最终测试结果如下所示（因为ragas默认需要使用opanai的ai，我这里我没有就硬传的自己的模型，虽然有结果但是不知道为什么有几个指标都是零，这个我后续在研究还不补充）：   
+![测试图](https://github.com/good-lwb/rag_learn/blob/main/assets/evaluate.png)
 
 ## 如何使用
 首先你需要下载bge-small-zh-v1.5;bge-reranker-base;Qwen3-4B三个模型,并保存在项目路径下.  
