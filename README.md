@@ -17,17 +17,23 @@
 *索引*：使用最简单的按500token分块，未作overlap，bge-samll-zh-v1.5作为embeding模型，使用faiss构架本地向量数据库  
 *检索*：使用最基础的huggingface加载器加载模型推理，未做多路召回，未做rerank，无增强检索技术
 
+
+
 **v2.0**  
 2.0版本旨在使用基本的优化技术（非企业级）  
 提供了api版本（main_api.py）和本地加载模型的版本（main.py）  
 *索引*：使用langchain.text_spliter对文档进行分块chunk=512、overlap=128，embeding='bge-samll-zh-v1.5'，向量数据库=faiss  
 *检索*：最简单的双路召回（关键词检索(BM25)、向量匹配），召回10+10，rerank取前5  
 
+
+
 **v3.0**  
 3.0版本使用Qwen-Rag框架进行开发（可以作为企业的快速启动测试，能在保证质量的前提下体验Rag带来的效果提升）  
 这里还是提供两个版本的测试脚本，api版本（main_api.py）和本地加载模型的版本（main.py）  
 对于本地加载模型，在此版本中我们直接使用vllm来加载本地模型给Qwen-Rag使用（直接在终端使用bash start_vllm.sh即可加载模型）；  
 同时在这次测试中考虑到v2版本无记忆对话不支持多轮对话，也在Qwen-rag框架下进行了多轮对话的加入  
+
+
 
 **v4.0**  
 4.0版本中引入了父文档检索器，同时合并api加载模型和本地vllm加载的代码，并添加logging打印功能  
@@ -46,7 +52,9 @@ langchain的父文档检索器主要提供了两种方式：检索完整文档 �
 *日志*：在4.0中引入了logging功能，并将检索信息通过json文件进行保存，方便后续对rag检索能进行评估。  
 在这部分我并没做多路召回+重排序，因为本任务文档级别较小，如果有需要大量文档召回的朋友可以去结合v2.0的多路召回策略和rerank自行修改一下代码。  
 
-**v5.0**  (开发-ing)  
+
+
+**v5.0**    
 5.0版本使用ragas对rag系统进行评估以此验证在4.0版本rag的提升（其他版本测试代码这里不给出了，我已经将ragas评估函数封装，直接传参进去测试其他版本不难）。  
 衡量一个rag系统的主要参数有如下五类：  
 忠实度(faithfulness)：衡量了生成的答案(answer)与给定上下文(context)的事实一致性。它是根据answer和检索到的context计算得出的。并将计算结果缩放到 (0,1) 范围且越高越好。  
@@ -54,8 +62,10 @@ langchain的父文档检索器主要提供了两种方式：检索完整文档 �
 上下文精度(Context precision)：评估所有在上下文(contexts)中呈现的与基本事实(ground-truth)相关的条目是否排名较高。理想情况下，所有相关文档块(chunks)必须出现在顶层。该指标使用question和计算contexts，值范围在 0 到 1 之间，其中分数越高表示精度越高。  
 上下文召回率(Context recall)：衡量检索到的上下文(Context)与人类提供的真实答案(ground truth)的一致程度。它是根据ground truth和检索到的Context计算出来的，取值范围在 0 到 1 之间，值越高表示性能越好。  
 上下文相关性(Context relevancy)：该指标衡量检索到的上下文(Context)的相关性，根据用户问题(question)和上下文(Context)计算得到，并且取值范围在 (0, 1)之间，值越高表示相关性越好。理想情况下，检索到的Context应只包含解答question的信息。   
-最终测试结果如下所示（因为ragas默认需要使用opanai的ai，我这里我没有就硬传的自己的模型，虽然有结果但是不知道为什么有几个指标都是零，这个我后续在研究还不补充）：   
+最终测试结果如下所示（因为ragas默认需要使用opanai的ai，我这里我没有就硬传的自己的模型，虽然有结果但是不知道为什么有几个指标都是零，这个我后续在研究补充）：   
 ![测试图](https://github.com/good-lwb/rag_learn/blob/main/assets/evaluate.png)
+
+
 
 ## 如何使用
 首先你需要下载bge-small-zh-v1.5;bge-reranker-base;Qwen3-4B三个模型,并保存在项目路径下.  
