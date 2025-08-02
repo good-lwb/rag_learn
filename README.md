@@ -24,18 +24,9 @@
 
 ---
 
-### **技术全景图**
-```mermaid
-pie
-    title RAG技术覆盖度
-    "分块策略" : 4 (v1.0-v4.0)
-    "多路召回" : 2 (v2.0/v4.0)
-    "父文档检索" : 1 (v4.0)
-    "评估体系" : 1 (v5.0)
-    "框架对比" : 3 (LangChain/Qwen/Llama)
 
 
-## 项目说明  
+## 各版本技术细节
 **v1.0**  
 1.0版本旨在快速启动rag体验rag流程并且在代码中使用了大量打印注释方便理解rag流程  
 *索引*：使用最简单的按500token分块，未作overlap，bge-samll-zh-v1.5作为embeding模型，使用faiss构架本地向量数据库  
@@ -122,6 +113,7 @@ langchain版本>0.3即可,其余不做版本要求.
 !pip install llama-index  # 安装llama_index必须新create虚拟环境，和langchain不兼容  
 !pip install llama-index-embeddings-huggingface  
 !pip install llama-index-llms-huggingface  
+
 
 
 
