@@ -11,7 +11,30 @@
 
 本项目主要对这三个阶段分别展开优化
 
-~~下面是不同版本的项目说明~~  
+# RAG 项目版本迭代总览
+
+| 版本   | 核心目标                          | 索引优化                          | 检索优化                          | 评估/其他                          | 框架/工具链                     |
+|--------|-----------------------------------|-----------------------------------|-----------------------------------|------------------------------------|---------------------------------|
+| **v1.0** | 快速体验基础RAG流程               | - 按500token分块<br>- BGE-small-zh Embedding<br>- FAISS向量库 | - 单路向量检索<br>- 无召回优化      | - 大量日志打印辅助理解             | LangChain                       |
+| **v2.0** | 基础优化技术实践                  | - LangChain分块（512+128重叠）<br>- 同v1.0 Embedding/FAISS | - 双路召回（BM25+向量）<br>- 10+10→rerank Top5 | - 支持API/本地模型加载            | LangChain                       |
+| **v3.0** | 企业级快速测试（平衡质量与效率）  | - 同v2.0                          | - Qwen-Rag框架内置优化<br>- 支持多轮对话 | - 本地vLLM加速推理               | Qwen-Rag + vLLM                 |
+| **v4.0** | 解决长文本信息碎片化问题          | - **父文档检索器**<br>- 子块匹配→返回父块<br>- Chroma向量库+JSON持久化 | - 子块Top3→父块返回<br>- 支持API/本地Embedding | - 引入Logging<br>- 检索过程存JSON | LangChain + Chroma              |
+| **v5.0** | 量化评估RAG效果                   | - 同v4.0                          | - 同v4.0                          | - **RAGAS评估**<br>（忠实度、相关性等5指标） | Ragas + 自定义模型              |
+| **v6.0** | 探索LlamaIndex生态                | - LlamaIndex基础分块/索引         | - 基础检索流程                     | - 对比LangChain/Qwen-Rag          | LlamaIndex                     |
+
+---
+
+### **技术全景图**
+```mermaid
+pie
+    title RAG技术覆盖度
+    "分块策略" : 4 (v1.0-v4.0)
+    "多路召回" : 2 (v2.0/v4.0)
+    "父文档检索" : 1 (v4.0)
+    "评估体系" : 1 (v5.0)
+    "框架对比" : 3 (LangChain/Qwen/Llama)
+
+
 ## 项目说明  
 **v1.0**  
 1.0版本旨在快速启动rag体验rag流程并且在代码中使用了大量打印注释方便理解rag流程  
@@ -99,5 +122,6 @@ langchain版本>0.3即可,其余不做版本要求.
 !pip install llama-index  # 安装llama_index必须新create虚拟环境，和langchain不兼容  
 !pip install llama-index-embeddings-huggingface  
 !pip install llama-index-llms-huggingface  
+
 
 
